@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+
+  <meta charset="utf-8"/>
+<title>JavaScript Quiz</title>
+
+
+<!-- //////////////////// CSS //////////////////////////// -->
+  <style>
+
+    body{ 
+      border:#BEBEBE 3px solid; padding:10px 40px 40px 40px; 
+      background-color: #F5F5F5;
+      width:50%;
+      font-family: Georgia;
+    }
+
+  </style>
+
+</head>
+    <body>
+
+<!-- ////////////////////   HTML  //////////////////////////// -->
+    <h2 id="test_status"></h2>
+      <div id="test">
+
+
+<!-- ////////////////////   JavaScript   //////////////////////////// -->
+        <script>
+            // pos is position of where the user in the test or which question they're up to
+            var pos = 0, test, test_status, question, choice, choices, chA, chB, chC, correct = 0;
+            // this is a multidimensional array with 4 inner array elements with 5 elements inside them
+
+            var questions = [
+              ["Is JavaScript case-sensitive?", "Sometimes", "Yes", "No" ,"B"],
+
+              ["What will the following code return: Boolean(10 > 9)?", "true", "false", "NaN", "A"],
+
+              ["JavaScript is the same as Java.", "Sometimes", "No", "Yes", "B"],
+
+              [" How does a FOR loop start?", "for (i <= 5; i++)", " for (i = 0; i <= 5; j--)", "(i = 0; i <= 5; i++)", "C"],
+
+
+              ["How does a WHILE loop start?", "while i = 1 to 10", "while (i <= 10)", "while (i <= 10; i++)", "B"],
+
+              ["How to write an IF statement for executing some code if ''i'' is NOT equal to 5?", "f i =! 5 then", " if (i != 5)", " f i <! 5 then", "B"],
+
+              [" How to write an IF statement in JavaScript?", "if (i == 5)", "if i = 5", "if i = 5 then", "A"],
+
+              ["How do you write Hello World in an alert box?", "alert('' Hello World '');", "alertBox(''Hello World'');", "msgBox(''Hello World'');"],
+
+              [". The external JavaScript file must contain the < script > tag.", "true", "false", "does not matter", "B"],
+
+              [" . The pop() method of the array does which of the following task ?", "decrements the total length by 1", "increments the total length by 1", "prints the first element but no effect on the length", "A"],
+
+              ["The primary purpose of the array map() function is that it", " maps the elements of another array into itself", "passes each element of the array and returns the necessary mapped elements", " passes each element of the array on which it is invoked to the function you specify, and returns an array containing the values returned by that function", "C"],
+
+              ["The reduce and reduceRight methods follow a common operation called", "filter and fold", " inject and fold","finger and fold", "B"] 
+              ];
+            // this get function is short for the getElementById function  
+            function get(x){
+              return document.getElementById(x);
+            }
+            function renderQuestion(){
+              test = get("test");
+              if(pos >= questions.length){
+                test.innerHTML = "<h2>You got "+correct+" of "+questions.length+" questions correct</h2>";
+                get("test_status").innerHTML = "Test completed";
+                // resets the variable to allow users to restart the test
+                pos = 0;
+                correct = 0;
+                // stops rest of renderQuestion function running when test is completed
+                return false;
+              }
+              get("test_status").innerHTML = "Question "+(pos+1)+" of "+questions.length;
+              question = questions[pos][0];
+              chA = questions[pos][1];
+              chB = questions[pos][2];
+              chC = questions[pos][3];
+              test.innerHTML = "<h3>"+question+"</h3>";
+              
+
+              // the += appends to the data we started on the line above
+              test.innerHTML += "<input type='radio' name='choices' value='A'> "+chA+"<br>";
+              test.innerHTML += "<input type='radio' name='choices' value='B'> "+chB+"<br>";
+              test.innerHTML += "<input type='radio' name='choices' value='C'> "+chC+"<br><br>";
+              test.innerHTML += "<button onclick='checkAnswer()'>Submit Answer</button>";
+            }
+            function checkAnswer(){
+              // use getElementsByName because we have an array which it will loop through
+              choices = document.getElementsByName("choices");
+              for(var i=0; i<choices.length; i++){
+                if(choices[i].checked){
+                  choice = choices[i].value;
+                }
+              }
+              // checks if answer matches the correct choice
+              if(choice == questions[pos][4]){
+                //each time there is a correct answer this value increases
+                correct++;
+              }
+              // changes position of which character user is on
+              pos++;
+              // then the renderQuestion function runs again to go to next question
+              renderQuestion();
+            }
+            window.addEventListener("load", renderQuestion, false);
+    
+       </script>
+    </div>
+  </body>
+
+</html>
